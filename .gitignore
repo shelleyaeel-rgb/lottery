@@ -1,0 +1,8 @@
+node_modules/
+data/raw/
+data/models/
+data/predictions/
+data/snapshots/
+data/*.tmp
+*.log
+.tmp/

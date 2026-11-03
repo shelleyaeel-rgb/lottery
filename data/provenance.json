@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-11-02T00:54:45.092Z",
+  "datasetHash": "35437b644604b55690d5203f10f645cb89170233eaff337213ad04709bb7cf1a",
+  "coverage": {
+    "count": 2083,
+    "firstIssue": "2013001",
+    "lastIssue": "2026125"
+  },
+  "sources": [
+    {
+      "id": "2026-10-30T02-55-08-615Z-18b13bef",
+      "type": "official",
+      "name": "中国福利彩票发行管理中心",
+      "url": "https://www.cwl.gov.cn/cwl_admin/front/cwlkj/search/kjxx/findDrawNotice?name=ssq&issueCount=5000&pageNo=1&pageSize=5000&systemType=PC",
+      "crossCheck": {
+        "url": "https://appsh.swlc.net.cn/shfcoc_datachart/datachart/ssq/lskj/ls_award.html",
+        "checkedAt": "2026-10-30T02:55:08.604Z",
+        "matchedCount": 100,
+        "responseSha256": "940e3d824824d811c493cb0ffb2f11e6a67663900793cb711ea078655e2e8c8c",
+        "latestIssue": "2026124"
+      },
+      "fetchedAt": "2026-10-30T02:55:08.615Z",
+      "rowCount": 2082,
+      "addedCount": 2082,
+      "firstIssue": "2013001",
+      "lastIssue": "2026124",
+      "responseSha256": "267744ce7a87285597c2681f0ef166907c1ca4241e6a6aac04903aae614bcc98",
+      "normalizedSha256": "4717345e95aa7d85bd0c0673b4ec9c53018f0b5111d9570e62488b89cca8b51f",
+      "rawFile": "raw/2026-10-30T02-55-08-615Z-18b13bef.txt"
+    },
+    {
+      "id": "2026-10-30T03-00-35-360Z-91182027",
+      "type": "official",
+      "name": "中国福利彩票发行管理中心",
+      "url": "https://www.cwl.gov.cn/cwl_admin/front/cwlkj/search/kjxx/findDrawNotice?name=ssq&issueCount=5000&pageNo=1&pageSize=5000&systemType=PC",
+      "crossCheck": {
+        "url": "https://appsh.swlc.net.cn/shfcoc_datachart/datachart/ssq/lskj/ls_award.html",
+        "checkedAt": "2026-10-30T03:00:35.301Z",
+        "matchedCount": 100,
+        "responseSha256": "940e3d824824d811c493cb0ffb2f11e6a67663900793cb711ea078655e2e8c8c",
+        "latestIssue": "2026124"
+      },
+      "fetchedAt": "2026-10-30T03:00:35.360Z",
+      "rowCount": 2082,
+      "addedCount": 0,
+      "firstIssue": "2013001",
+      "lastIssue": "2026124",
+      "responseSha256": "267744ce7a87285597c2681f0ef166907c1ca4241e6a6aac04903aae614bcc98",
+      "normalizedSha256": "4717345e95aa7d85bd0c0673b4ec9c53018f0b5111d9570e62488b89cca8b51f",
+      "rawFile": "raw/2026-10-30T03-00-35-360Z-91182027.txt"
+    },
+    {
+      "id": "2026-11-02T00-54-45-092Z-8c0ad345",
+      "type": "official",
+      "name": "中国福利彩票发行管理中心",
+      "url": "https://www.cwl.gov.cn/cwl_admin/front/cwlkj/search/kjxx/findDrawNotice?name=ssq&issueCount=5000&pageNo=1&pageSize=5000&systemType=PC",
+      "crossCheck": {
+        "url": "https://appsh.swlc.net.cn/shfcoc_datachart/datachart/ssq/lskj/ls_award.html",
+        "checkedAt": "2026-11-02T00:54:45.056Z",
+        "matchedCount": 100,
+        "responseSha256": "97e5ad84b6af12744cc6be31e66fb16caa59b1e822fcfdd972e98bdff501c77f",
+        "latestIssue": "2026125"
+      },
+      "fetchedAt": "2026-11-02T00:54:45.092Z",
+      "rowCount": 2083,
+      "addedCount": 1,
+      "firstIssue": "2013001",
+      "lastIssue": "2026125",
+      "responseSha256": "6fdfaa2bacdad7b21856d3dcccf1195b5c83fc26ca15312d39a088138468a152",
+      "normalizedSha256": "35437b644604b55690d5203f10f645cb89170233eaff337213ad04709bb7cf1a",
+      "rawFile": "raw/2026-11-02T00-54-45-092Z-8c0ad345.txt"
+    }
+  ]
+}

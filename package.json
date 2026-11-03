@@ -1,0 +1,13 @@
+{
+  "name": "ssq-research-lab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "本地双色球数据与概率研究工作台",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test",
+    "sync": "node scripts/sync.mjs"
+  },
+  "engines": { "node": ">=22" }
+}

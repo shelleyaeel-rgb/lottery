@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183d36">
+  <title>双色球研究室 · 本地概率工作台</title>
+  <meta name="description" content="基于真实开奖数据的双色球概率研究、时序验证与开奖前预测记录。">
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#predict" aria-label="双色球研究室首页"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>双色球研究室<small>SSQ RESEARCH LAB</small></span></a>
+    <div class="topbar-right"><span class="local-status"><i></i>本地运行</span><span id="server-time" class="muted">北京时间</span></div>
+  </header>
+  <main class="shell">
+    <section class="page-heading">
+      <div><p class="eyebrow">数据 · 概率 · 验证</p><h1>把每一次预测，交给结果验证。</h1><p class="lead">从真实开奖数据出发，比较模型与随机基线，保留开奖前的原始记录。</p></div>
+      <div class="heading-note"><span class="small-label">研究原则</span><strong>预测记录先于开奖</strong><span>模型估计不代表真实中奖概率</span></div>
+    </section>
+
+    <div id="global-message" class="message" role="status" aria-live="polite" hidden></div>
+    <section class="overview" aria-label="数据概况">
+      <article class="stat"><span>历史数据</span><strong id="stat-count">—<small>期</small></strong><p id="stat-range">正在读取本地数据</p></article>
+      <article class="stat latest-stat"><span id="latest-label">最近一期</span><div id="latest-balls" class="ball-row compact"><span class="muted">等待数据</span></div><p id="latest-date">—</p></article>
+      <article class="stat"><span>验证结论</span><strong id="stat-recommendation" class="stat-text">尚未验证</strong><p id="stat-training">可直接使用默认概率模型</p></article>
+      <article class="stat"><span>已保存预测</span><strong id="stat-records">0<small>次</small></strong><p>保留模型、数据截止期和时间</p></article>
+    </section>
+
+    <nav class="tabs" aria-label="工作区"><button type="button" class="tab active" data-view="predict" aria-current="page"><span>01</span>开奖前预测</button><button type="button" class="tab" data-view="data"><span>02</span>开奖数据</button><button type="button" class="tab" data-view="training"><span>03</span>训练与验证</button><button type="button" class="tab" data-view="history"><span>04</span>预测记录</button></nav>
+
+    <section id="view-predict" class="view active" aria-label="开奖前预测">
+      <div class="workspace-grid">
+        <article class="panel configuration">
+          <div class="panel-heading"><div><p class="eyebrow">配置实验</p><h2>本次预测</h2></div><span class="step-badge">01</span></div>
+          <form id="prediction-form">
+            <label for="model">概率模型</label><select id="model" name="model"><option value="uniform">均匀随机基线</option><option value="bayes" selected>贝叶斯平滑概率模型</option><option value="decay">近期衰减概率模型</option></select><p id="model-description" class="field-help">读取模型说明…</p>
+            <label class="checkbox-label"><input type="checkbox" id="use-trained"><span>使用训练选出的参数</span><span id="trained-badge" class="mini-tag">尚未训练</span></label><p id="training-status" class="field-help">默认参数即可生成概率；训练用于检验是否值得采用其他参数。</p>
+            <div class="form-divider"></div>
+            <div class="form-row"><div><label for="red-count">红球候选数 <span class="label-range">6–33</span></label><input id="red-count" name="redCount" type="number" min="6" max="33" value="8" required></div><div><label for="blue-count">蓝球候选数 <span class="label-range">1–16</span></label><input id="blue-count" name="blueCount" type="number" min="1" max="16" value="2" required></div></div>
+            <label for="group-count">生成完整号码组数 <span class="label-range">1–100</span></label><input id="group-count" name="groupCount" type="number" min="1" max="100" value="5" required><p class="field-help">每组为 6 个红球 + 1 个蓝球，组间不重复。候选池不会自动展开成全部组合。</p>
+            <div class="coverage-hint" id="coverage-hint">当前候选池可组成 56 组，将保存其中 5 组。</div>
+            <div class="form-divider"></div>
+            <label for="target-issue">目标期号 <span class="label-range">根据最新数据生成</span></label><input id="target-issue" name="targetIssue" inputmode="numeric" pattern="[0-9]{7}" maxlength="7" placeholder="请先获取最新数据" required readonly>
+            <label for="draw-at">预计开奖时间 <span class="label-range">北京时间</span></label><input id="draw-at" name="drawAt" type="datetime-local" required readonly><p class="field-help">按常规开奖日推算，日期仅参考，请核对官方安排。保存时会联网核验最新开奖；时间已过、已有结果或休市安排不匹配时，请先更新数据，勿手动绕过。</p>
+            <details class="advanced"><summary>复现实验设置</summary><label for="seed">随机种子（可选）</label><input id="seed" name="seed" maxlength="100" placeholder="留空时由系统生成"><p class="field-help">同一数据、模型、参数和种子，可复现相同抽样结果。</p></details>
+            <button id="predict-button" type="submit" class="button primary full"><span>保存本次预测</span><span aria-hidden="true">↗</span></button><p class="save-hint">生成后立即保存原始记录，不覆盖之前的预测。</p>
+          </form>
+        </article>
+        <div class="results-column">
+          <article class="panel result-panel">
+            <div class="panel-heading"><div><p class="eyebrow">预测结果</p><h2 id="result-title">等待保存本次预测</h2></div><span id="result-status" class="pill">尚未生成</span></div>
+            <div id="prediction-result"><div class="empty-state"><div class="empty-balls" aria-hidden="true"><i>06</i><i>18</i><i>?</i></div><h3>先设定，再记录</h3><p>选择模型、候选数量与目标期号后，<br>保存本次预测。结果将在这里显示。</p><span class="empty-note">图示为占位示意，并非推荐号码</span></div></div>
+          </article>
+          <article class="panel probability-panel">
+            <div class="panel-heading"><div><p class="eyebrow">模型视角</p><h2>号码出现概率</h2></div><button id="refresh-preview" class="button quiet small" type="button">刷新概率</button></div>
+            <p class="panel-description">红球显示“该号码进入 6 个红球”的模型估计概率，蓝球显示“该号码被开出”的模型估计概率。</p>
+            <div class="probability-heading"><span><i class="legend-dot red"></i>红球 · 01–33</span><small id="red-prob-sum">概率合计应为 6</small></div><div id="red-probabilities" class="probability-grid red-grid"><p class="muted">正在计算…</p></div>
+            <div class="probability-heading"><span><i class="legend-dot blue"></i>蓝球 · 01–16</span><small id="blue-prob-sum">概率合计应为 1</small></div><div id="blue-probabilities" class="probability-grid blue-grid"><p class="muted">正在计算…</p></div>
+            <p class="chart-note">柱高按各区最大值缩放。模型估计仅用于研究，不等同于公平开奖下的理论概率。</p><details class="model-parameters"><summary>查看当前模型参数</summary><pre id="preview-parameters">—</pre></details>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-data" class="view" aria-label="开奖数据" hidden>
+      <div class="data-tools-grid"><article class="panel"><div class="panel-heading"><div><p class="eyebrow">真实数据</p><h2>同步官方开奖</h2></div><span class="icon-tile" aria-hidden="true">↻</span></div><p class="panel-description">从官方来源获取开奖数据，校验期号、日期和号码，保留数据来源与获取时间。</p><button id="sync-button" class="button primary" type="button">同步最新数据</button><div id="data-warnings" class="data-warnings"></div></article><article class="panel"><div class="panel-heading"><div><p class="eyebrow">本地资料</p><h2>导入历史数据</h2></div><span class="icon-tile" aria-hidden="true">↑</span></div><p class="panel-description">支持 JSON 或 CSV，与已有数据合并。相同期号存在冲突时，会拒绝导入并提示。</p><input id="import-file" class="file-input" type="file" accept=".json,.csv,application/json,text/csv" aria-label="选择 JSON 或 CSV 数据文件"><button id="import-button" class="button secondary" type="button">选择文件并导入</button><p class="field-help">CSV 表头：issue,date,red,blue；red 用空格分隔 6 个号码。</p></article></div>
+      <article class="panel provenance-panel"><div class="panel-heading"><div><p class="eyebrow">可追溯</p><h2>数据来源与覆盖</h2></div></div><div id="data-provenance" class="metadata-grid"><p class="muted">尚无来源记录</p></div><details><summary>完整来源信息</summary><pre id="provenance-json">—</pre></details></article>
+      <article class="panel"><div class="panel-heading"><div><p class="eyebrow">开奖记录</p><h2>最近 30 期</h2></div><span id="draw-table-count" class="mini-tag">—</span></div><div class="table-wrap"><table><thead><tr><th scope="col">期号</th><th scope="col">开奖日期</th><th scope="col">红球</th><th scope="col">蓝球</th></tr></thead><tbody id="draw-table"><tr><td colspan="4" class="empty-cell">正在读取…</td></tr></tbody></table></div></article>
+    </section>
+
+    <section id="view-training" class="view" aria-label="训练与验证" hidden>
+      <article class="panel training-intro"><div><p class="eyebrow">先判断必要性</p><h2>训练的目的，是判断是否值得改变基线。</h2><p class="panel-description">均匀随机模型无需训练。概率模型可用默认参数直接拟合；训练会按时间划分数据，选择平滑强度与近期权重，再用留出的较新数据检验。</p></div><button id="train-button" class="button primary" type="button">训练并验证模型</button></article>
+      <div class="method-strip"><div><b>01</b><span>早期数据<strong>估计模型</strong></span></div><i aria-hidden="true">→</i><div><b>02</b><span>验证区间<strong>选择参数</strong></span></div><i aria-hidden="true">→</i><div><b>03</b><span>留出测试<strong>比较随机基线</strong></span></div></div>
+      <article class="panel"><div class="panel-heading"><div><p class="eyebrow">验证报告</p><h2 id="training-title">尚未进行训练验证</h2></div><span id="training-created" class="mini-tag">—</span></div><div id="training-report"><div class="empty-state small-empty"><h3>先有证据，再决定用什么</h3><p>训练报告会保留数据范围、参数与测试结果。<br>未发现优势，也是需要保留的实验结论。</p></div></div></article>
+      <div class="research-note"><strong>如何理解验证结果</strong><p>指标较好不等于头奖概率已被证实提高。模型必须持续接受新开奖检验，不能因为一次好成绩就得出稳定有效的结论。</p></div>
+    </section>
+
+    <section id="view-history" class="view" aria-label="预测记录" hidden>
+      <article class="panel"><div class="panel-heading"><div><p class="eyebrow">开奖前留存</p><h2>每一次实验，都有记录</h2></div><span id="history-count" class="mini-tag">0 次</span></div><p class="panel-description">保存时间、数据截止期、模型参数和生成号码一起留存。开奖数据更新后，自动核对已保存记录。</p><div id="history-list"><div class="empty-state small-empty"><h3>还没有保存的预测</h3><p>在“开奖前预测”中保存第一条记录。</p></div></div></article>
+    </section>
+    <footer><span>双色球研究室 <span class="footer-separator">/</span> 本地数据 · 可复现实验</span><span>历史数据不保证未来表现</span></footer>
+  </main>
+</body>
+</html>
